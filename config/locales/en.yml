@@ -1,0 +1,11 @@
+en:
+  api:
+    errors:
+      invalid_content_type: Invalid content type header
+      missing_param: A required param is missing
+      not_found: Couldn't find the %{record}
+      override_params: Override resource_params
+  errors:
+    invalid_date: cannot be in past
+    invalid_login_credentials: Invalid login credentials. Please try again.
+    reservation_not_found: Couldn't find the reservation
