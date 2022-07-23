@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # config/initializers/smtp.rb
 ActionMailer::Base.smtp_settings = {
   address: 'smtp.sendgrid.net',
@@ -8,12 +10,12 @@ ActionMailer::Base.smtp_settings = {
   authentication: :login,
   enable_starttls_auto: true
 }
-#if you are using the API key
+# if you are using the API key
 ActionMailer::Base.smtp_settings = {
   domain: ENV['DOMAIN'],
-  address:        "smtp.sendgrid.net",
-  port:            587,
+  address: 'smtp.sendgrid.net',
+  port: 587,
   authentication: :plain,
-  user_name:      'apikey',
-  password:       ENV['SENDGRID_API_KEY']
+  user_name: 'apikey',
+  password: ENV['SENDGRID_API_KEY']
 }
