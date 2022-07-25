@@ -18,4 +18,13 @@ class Product < ApplicationRecord
 
   validates :code, presence: true, uniqueness: true
   validates :price, presence: true, numericality: true
+
+  def sale_price(quantity: nil)
+    # return the same price unless there are discounts availabile
+    discount = self.discounts.where('quantity_range @> int8range(?)', [quantity, quantity + 1]).first
+
+    return price if discount.nil?
+
+    price - (discount.percentage / 100 * price)
+  end
 end

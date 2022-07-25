@@ -5,5 +5,6 @@ namespace :api do
     get :status, to: 'api#status'
 
     resources :products, only: %i[index update]
+    get '/products/price/', to: 'products#list_price', as: 'list_price'
   end
 end
