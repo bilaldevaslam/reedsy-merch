@@ -4,21 +4,17 @@ module Api
   module V1
     class ProductsController < ApiController
       def list_price
-        total_price = 0
-        items = permitted_params['items']
-
         response =
-          items.map do |item|
+          permitted_params['items'].map do |item|
             product = Product.find_by(code: item[:code])
 
             next unless product && item[:quantity].positive?
 
-            unit_price = product.sale_price(quantity: item[:quantity])
-            total_price += unit_price * item[:quantity]
+            @total_price = (@total_price || 0) + (product.sale_price(quantity: item[:quantity]) * item[:quantity])
             "#{item[:quantity]} #{item[:code]}"
           end
 
-        response << "Total: #{total_price}" if total_price.positive?
+        response.push("Total: #{@total_price}") if @total_price.positive?
         render_response response
       end
 

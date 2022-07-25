@@ -21,7 +21,7 @@ class Product < ApplicationRecord
 
   def sale_price(quantity: nil)
     # return the same price unless there are discounts availabile
-    discount = self.discounts.where('quantity_range @> int8range(?)', [quantity, quantity + 1]).first
+    discount = discounts.where('quantity_range @> int8range(?)', [quantity, quantity + 1]).first
 
     return price if discount.nil?
 
