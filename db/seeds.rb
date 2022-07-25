@@ -29,6 +29,7 @@ products.each do |p|
 
   next unless product.code == 'MUG'
 
+  # variable discounts on mug
   (2..28).step(2).each do |discount|
     product.discounts.create!(quantity_range: min_quant..max_quant, percentage: discount)
     min_quant += 10
