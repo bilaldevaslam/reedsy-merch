@@ -13,4 +13,7 @@
 #
 class Product < ApplicationRecord
   has_many :discounts, dependent: :destroy
+
+  validates :code, presence: true, uniqueness: true
+  validates :price, presence: true, numericality: true
 end
