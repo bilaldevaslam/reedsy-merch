@@ -16,6 +16,7 @@ class Product < ApplicationRecord
 
   has_many :discounts, dependent: :destroy
 
+  validates :name, presence: true
   validates :code, presence: true, uniqueness: true
   validates :price, presence: true, numericality: true
 
