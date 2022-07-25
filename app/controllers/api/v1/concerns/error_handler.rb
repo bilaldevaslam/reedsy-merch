@@ -11,6 +11,7 @@ module Api
           rescue_from ActiveRecord::RecordInvalid,         with: :record_invalid
           rescue_from ActionController::ParameterMissing,  with: :parameter_missing
           rescue_from ActionController::UnpermittedParameters, with: :unpermitted_params
+          rescue_from ActiveRecord::StaleObjectError, with: :stale_object
         end
 
         def not_found(exception)
@@ -31,6 +32,11 @@ module Api
         def unpermitted_params(exception)
           logger.info { exception }
           render json: { error: exception }, status: :bad_request
+        end
+
+        def stale_object(exception)
+          logger.info { exception }
+          render json: { error: exception }, status: :conflict
         end
       end
     end

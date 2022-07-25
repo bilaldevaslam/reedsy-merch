@@ -5,7 +5,6 @@ module Api
     class ProductsController < ApiController
       private
 
-      # Question 1: Implement an API endpoint that allows listing the existing items in the store, as well as their attributes.
       # setting optional pagination for faster API performance
       def load_collection
         self.current_collection =
@@ -14,7 +13,7 @@ module Api
 
       def resource_params
         params.require(:product).permit(
-          :code, :name, :price
+          :price
         )
       end
     end

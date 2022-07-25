@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,28 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_220_722_082_252) do
+ActiveRecord::Schema.define(version: 2022_07_25_075435) do
+
   # These are extensions that must be enabled in order to support this database
-  enable_extension 'plpgsql'
+  enable_extension "plpgsql"
 
-  create_table 'discounts', force: :cascade do |t|
-    t.bigint 'product_id', null: false
-    t.int8range 'quantity_range', null: false
-    t.float 'percentage', null: false
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
-    t.index %w[product_id quantity_range], name: 'index_discounts_on_product_id_and_quantity_range', unique: true
-    t.index ['product_id'], name: 'index_discounts_on_product_id'
+  create_table "discounts", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.int8range "quantity_range", null: false
+    t.float "percentage", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id", "quantity_range"], name: "index_discounts_on_product_id_and_quantity_range", unique: true
+    t.index ["product_id"], name: "index_discounts_on_product_id"
   end
 
-  create_table 'products', force: :cascade do |t|
-    t.string 'code', null: false
-    t.string 'name', null: false
-    t.float 'price', null: false
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
-    t.index ['code'], name: 'index_products_on_code', unique: true
+  create_table "products", force: :cascade do |t|
+    t.string "code", null: false
+    t.string "name", null: false
+    t.float "price", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "lock_version"
+    t.index ["code"], name: "index_products_on_code", unique: true
   end
 
-  add_foreign_key 'discounts', 'products'
+  add_foreign_key "discounts", "products"
 end
