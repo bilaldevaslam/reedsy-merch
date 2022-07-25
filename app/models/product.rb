@@ -12,6 +12,8 @@
 #  updated_at :datetime         not null
 #
 class Product < ApplicationRecord
+  paginates_per 5
+
   has_many :discounts, dependent: :destroy
 
   validates :code, presence: true, uniqueness: true
