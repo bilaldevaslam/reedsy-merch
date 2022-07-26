@@ -28,12 +28,14 @@ module Api
           collection_scope.page(params[:page]).order(:id)
       end
 
+      # params that are allowed/required to update/create the resource
       def resource_params
         params.require(:product).permit(
           :price
         )
       end
 
+      # params that are allowed for products#list_price method
       def permitted_params
         params.require(:products).permit(
           items: %i[code quantity]
