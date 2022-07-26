@@ -8,13 +8,15 @@ module Api
           permitted_params['items'].map do |item|
             product = Product.find_by(code: item[:code])
 
-            next unless product && item[:quantity].positive?
-
-            @total_price = (@total_price || 0) + (product.sale_price(quantity: item[:quantity]) * item[:quantity])
-            "#{item[:quantity]} #{item[:code]}"
+            if product && item[:quantity].to_i.positive?
+              @total_price = (@total_price || 0) + (product.sale_price(quantity: item[:quantity].to_i) * item[:quantity].to_i)
+              "#{item[:quantity]} #{item[:code]}"
+            else
+              "No results found for [#{item[:quantity]} #{item[:code]}]"
+            end
           end
 
-        response.push("Total: #{@total_price}") if @total_price.positive?
+        response.push(total: @total_price) if @total_price.positive?
         render_response response
       end
 
