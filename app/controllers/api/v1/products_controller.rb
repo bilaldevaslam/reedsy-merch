@@ -4,11 +4,9 @@ module Api
   module V1
     class ProductsController < ApiController
       def list_price
-        items = Product.where(code: item_codes)
-        discounts = Discount.where(product: items).group_by(&:product_id)
+        items = Product.includes(:discounts).where(code: item_codes)
 
-        receipt = ReceiptGenerator.new(items: items, discounts: discounts, params: permitted_params['items']).generate
-
+        receipt = ReceiptGenerator.new(items: items, params: permitted_params['items']).generate
         render_response receipt
       end
 

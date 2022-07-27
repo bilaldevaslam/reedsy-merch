@@ -32,13 +32,14 @@ class Product < ApplicationRecord
   end
 
   # serializeable hash for product price listing
-  def attributes
+  def serialized_hash
     {
-      code: nil,
-      quantity: nil,
-      discount_percentage: nil,
-      price: nil,
-      discounted_price: nil
+      id: id,
+      code: code,
+      quantity: quantity,
+      original_price: price,
+      discounted_price: discounted_price,
+      discount_percentage: discount_percentage
     }
   end
 end

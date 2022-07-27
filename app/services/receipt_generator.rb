@@ -3,9 +3,8 @@
 class ReceiptGenerator
   attr_accessor :items, :discounts, :params, :product
 
-  def initialize(items: nil, discounts: nil, params: nil)
+  def initialize(items: nil, params: nil)
     @items = items
-    @discounts = discounts
     @params = params
   end
 
@@ -17,7 +16,7 @@ class ReceiptGenerator
       @product.quantity = param[:quantity].to_i
       @product.discount_percentage = product_discount
       result[:total_price] += @product.sale_price * @product.quantity
-      result[:items].push(@product.serializable_hash)
+      result[:items].push(@product.serialized_hash)
     end
   end
 
@@ -30,6 +29,8 @@ class ReceiptGenerator
 
   # from available loaded discounts, finding the applicable discount percentage for the current processed product
   def product_discount
-    @discounts[@product.id]&.find { |disc| disc.quantity_range.include?(@product.quantity) }&.percentage
+    @product.discounts.group_by(&:product_id)[@product.id]&.find do |discount|
+      return discount.percentage if discount.quantity_range.include?(@product.quantity)
+    end
   end
 end

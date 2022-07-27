@@ -17,6 +17,7 @@ RSpec.describe Product, type: :model do
   before do
     @product = described_class.create(code: 'MUG', name: 'xyz', price: 6)
     @discount = @product.discounts.create(quantity_range: 3..Float::INFINITY, percentage: 30)
+    @product.discount_percentage = @discount.percentage
   end
 
   # Product association test
@@ -46,13 +47,14 @@ RSpec.describe Product, type: :model do
   describe 'check for unit price of product on the basis of quantity' do
     context 'when product does not have any discount' do
       it 'returns the original price of MUG that is 6' do
-        expect(@product.sale_price(quantity: 2)).to eq(6)
+        @product.discount_percentage = nil
+        expect(@product.sale_price).to eq(6)
       end
     end
 
     context 'when product has discounts avaialble' do
       it 'returns the 30% discounted price for the MUG' do
-        expect(@product.sale_price(quantity: 4)).to eq(4.2)
+        expect(@product.sale_price).to eq(4.2)
       end
     end
   end

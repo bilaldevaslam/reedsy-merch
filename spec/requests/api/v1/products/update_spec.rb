@@ -23,7 +23,6 @@ describe 'PUT /api/v1/products/:id', type: :request do
 
     it 'returns the updated product' do
       put api_v1_product_price, params: params
-      expect(JSON.parse(response.body)['id']).to eq product.id
       expect(JSON.parse(response.body)['price']).to eq product.reload.price
     end
   end
