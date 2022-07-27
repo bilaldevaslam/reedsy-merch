@@ -12,6 +12,10 @@
 #  updated_at :datetime         not null
 #
 class Product < ApplicationRecord
+  include ActiveModel::Serialization
+
+  attr_accessor :quantity, :discount_percentage, :discounted_price
+
   paginates_per 5
 
   has_many :discounts, dependent: :destroy
@@ -20,12 +24,21 @@ class Product < ApplicationRecord
   validates :code, presence: true, uniqueness: true
   validates :price, presence: true, numericality: true
 
-  def sale_price(quantity: nil)
+  def sale_price
     # return the same price unless there are discounts availabile
-    discount = discounts.where('quantity_range @> int8range(?)', [quantity, quantity + 1]).first
+    return price if discount_percentage.nil?
 
-    return price if discount.nil?
+    self.discounted_price = price - (discount_percentage / 100 * price)
+  end
 
-    price - (discount.percentage / 100 * price)
+  # serializeable hash for product price listing
+  def attributes
+    {
+      code: nil,
+      quantity: nil,
+      discount_percentage: nil,
+      price: nil,
+      discounted_price: nil
+    }
   end
 end

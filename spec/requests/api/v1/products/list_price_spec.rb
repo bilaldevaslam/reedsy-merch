@@ -73,7 +73,7 @@ describe 'get /api/v1/products/price', type: :request do
         }
       get api_v1_products_price, params: params
       expect(response).to have_http_status(:success)
-      expect(JSON.parse(response.body).last['total']).to eq(41)
+      expect(JSON.parse(response.body)['total_price']).to eq(41)
     end
 
     # Items: 9 MUG, 1 TSHIRT
@@ -96,7 +96,7 @@ describe 'get /api/v1/products/price', type: :request do
         }
       get api_v1_products_price, params: params
       expect(response).to have_http_status(:success)
-      expect(JSON.parse(response.body).last['total']).to eq(69)
+      expect(JSON.parse(response.body)['total_price']).to eq(69)
     end
 
     # Items: 10 MUG, 1 TSHIRT
@@ -119,7 +119,7 @@ describe 'get /api/v1/products/price', type: :request do
         }
       get api_v1_products_price, params: params
       expect(response).to have_http_status(:success)
-      expect(JSON.parse(response.body).last['total']).to eq(73.80)
+      expect(JSON.parse(response.body)['total_price']).to eq(73.80)
     end
 
     # Items: 45 MUG, 3 TSHIRT
@@ -142,7 +142,7 @@ describe 'get /api/v1/products/price', type: :request do
         }
       get api_v1_products_price, params: params
       expect(response).to have_http_status(:success)
-      expect(JSON.parse(response.body).last['total']).to eq(279.90)
+      expect(JSON.parse(response.body)['total_price']).to eq(279.90)
     end
 
     # Items: 200 MUG, 4 TSHIRT, 1 HOODIE
@@ -169,7 +169,7 @@ describe 'get /api/v1/products/price', type: :request do
         }
       get api_v1_products_price, params: params
       expect(response).to have_http_status(:success)
-      expect(JSON.parse(response.body).last['total']).to eq(902.0)
+      expect(JSON.parse(response.body)['total_price']).to eq(902.0)
     end
   end
 end

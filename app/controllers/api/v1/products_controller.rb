@@ -4,19 +4,21 @@ module Api
   module V1
     class ProductsController < ApiController
       def list_price
-        response =
-          permitted_params['items'].map do |item|
-            product = Product.find_by(code: item[:code])
+        products = Product.where(code: item_codes)
+        discounts_by_product = Discount.where(product: products).group_by(&:product_id)
 
-            if product && item[:quantity].to_i.positive?
-              @total_price = (@total_price || 0) + (product.sale_price(quantity: item[:quantity].to_i) * item[:quantity].to_i)
-              "#{item[:quantity]} #{item[:code]}"
-            else
-              "No results found for [#{item[:quantity]} #{item[:code]}]"
-            end
+        response =
+          permitted_params['items'].each_with_object({ items: [], total_price: 0 }) do |item, result|
+
+            next unless products.any? { |prod| prod.code == item[:code] } && item[:quantity].to_i.positive?
+
+            product = products.find { |prod| prod.code == item[:code] }
+            product.quantity = item[:quantity].to_i
+            product.discount_percentage = discounts_by_product[product.id]&.find { |disc| disc.quantity_range.include?(product.quantity) }&.percentage
+            result[:total_price] += product.sale_price * product.quantity
+            result[:items].push(product.serializable_hash)
           end
 
-        response.push(total: @total_price) if @total_price.positive?
         render_response response
       end
 
@@ -40,6 +42,14 @@ module Api
         params.require(:products).permit(
           items: %i[code quantity]
         )
+      end
+
+      def item_codes
+        params[:products][:items].pluck(:code)
+      end
+
+      def quantities
+        params[:products][:items].pluck(:quantity)
       end
     end
   end
