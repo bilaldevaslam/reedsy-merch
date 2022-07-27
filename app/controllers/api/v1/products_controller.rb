@@ -13,7 +13,7 @@ module Api
       end
 
       private
-      
+
       # params that are allowed/required to update/create the resource
       def resource_params
         params.require(:product).permit(

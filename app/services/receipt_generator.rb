@@ -22,7 +22,7 @@ class ReceiptGenerator
   end
 
   private
-  
+
   # maps the current product from the list of products if the product is valid and exists
   def valid_product_code?(code: nil)
     @product = @items.find { |prod| prod.code == code }
