@@ -13,13 +13,7 @@ module Api
       end
 
       private
-
-      # setting optional pagination for faster API performance
-      def load_collection
-        self.current_collection =
-          collection_scope.page(params[:page]).order(:id)
-      end
-
+      
       # params that are allowed/required to update/create the resource
       def resource_params
         params.require(:product).permit(
@@ -28,6 +22,7 @@ module Api
       end
 
       # params that are allowed for products#list_price method
+      # throws exception if unpermitted params are sent
       def permitted_params
         params.require(:products).permit(
           items: %i[code quantity]

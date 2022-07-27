@@ -112,7 +112,7 @@ module Api
         end
 
         def load_collection
-          self.current_collection = collection_scope.all
+          self.current_collection = collection_scope.page(params[:page])
         end
       end
     end

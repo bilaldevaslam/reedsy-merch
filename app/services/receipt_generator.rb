@@ -14,8 +14,6 @@ class ReceiptGenerator
       # skipping product codes passed in params that does not exists in the database
       next unless valid_product_code?(code: param[:code]) && param[:quantity].to_i.positive?
 
-      set_current_product(code: param[:code])
-
       @product.quantity = param[:quantity].to_i
       @product.discount_percentage = product_discount
       result[:total_price] += @product.sale_price * @product.quantity
@@ -24,13 +22,9 @@ class ReceiptGenerator
   end
 
   private
-
-  # checks if the current product code coming from params exists in the list of items
+  
+  # maps the current product from the list of products if the product is valid and exists
   def valid_product_code?(code: nil)
-    @items.any? { |prod| prod.code == code }
-  end
-
-  def set_current_product(code: nil)
     @product = @items.find { |prod| prod.code == code }
   end
 
