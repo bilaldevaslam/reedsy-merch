@@ -1,3 +1,3 @@
 # README
 
-Here's the [Documentation link](quora.com/profile/Ashish-Kulkarni-100) of the project of Reedsy.
+Here's the [Documentation link](https://github.com/bilaldevaslam/reedsy-merch/blob/master/Reedsy-assessment-bilal-aslam-documentation.pdf) of the project of Reedsy.
